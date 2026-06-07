@@ -1,0 +1,4 @@
+#ifndef GENERATEDOT_H
+#define GENERATEDOT_H
+
+#endif // GENERATEDOT_H

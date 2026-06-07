@@ -1,0 +1,4 @@
+#ifndef READINPUTFILE_H
+#define READINPUTFILE_H
+
+#endif // READINPUTFILE_H

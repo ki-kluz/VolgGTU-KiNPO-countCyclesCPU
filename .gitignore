@@ -1,0 +1,9 @@
+# Игнорировать все папки build во всех подкаталогах проектов countCyclesCPU
+**/countCyclesCPU*/build/
+
+# Игнорировать пользовательские настройки Qt Creator во всех подкаталогах
+**/countCyclesCPU*/*.pro.user
+**/.qtcreator/
+
+# Игнорировать системные файлы macOS везде
+**/.DS_Store
