@@ -1,8 +1,8 @@
 #ifndef WEIGHTKEY_H
 #define WEIGHTKEY_H
 
-#include "src/enums/DataType.h"
-#include "src/enums/ExprNodeType.h"
+#include "../enums/DataType.h"
+#include "../enums/ExprNodeType.h"
 
 
 struct WeightKey

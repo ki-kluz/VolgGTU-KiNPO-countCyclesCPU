@@ -6,8 +6,10 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES +=  \
+SOURCES += \
             main.cpp \
             test_calculatecost.cpp \
             test_getoperationcost.cpp \
-            test_parsetreefromstring.cpp
+            test_parsetreefromstring.cpp \
+            ../countCyclesCPU/src/models/weighttable.cpp \
+            ../countCyclesCPU/src/models/weightkey.cpp

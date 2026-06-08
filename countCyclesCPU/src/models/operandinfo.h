@@ -3,7 +3,7 @@
 
 #include <QString>
 
-#include "src/enums/DataType.h"
+#include "../enums/DataType.h"
 
 
 struct OperandInfo

@@ -20,6 +20,4 @@ ParseTreeFromStringTest::~ParseTreeFromStringTest() {}
 
 void ParseTreeFromStringTest::test_case1() {}
 
-// QTEST_APPLESS_MAIN(TEST_parseTreeFromString)
-
 #include "test_parsetreefromstring.moc"

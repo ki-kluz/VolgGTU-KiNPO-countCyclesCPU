@@ -20,6 +20,4 @@ CalculateCostTest::~CalculateCostTest() {}
 
 void CalculateCostTest::test_case1() {}
 
-// QTEST_APPLESS_MAIN(TEST_calculateCost)
-
 #include "test_calculatecost.moc"

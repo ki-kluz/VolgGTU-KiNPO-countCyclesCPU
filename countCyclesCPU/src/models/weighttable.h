@@ -3,9 +3,9 @@
 
 #include <QMap>
 
-#include "src/enums/DataType.h"
-#include "src/enums/ExprNodeType.h"
-#include "src/models/weightkey.h"
+#include "../enums/DataType.h"
+#include "../enums/ExprNodeType.h"
+#include "../models/weightkey.h"
 
 
 class WeightTable

@@ -3,10 +3,10 @@
 
 #include <QString>
 
-#include "src/enums/DataType.h"
-#include "src/enums/ExprNodeType.h"
-#include "src/models/weighttable.h"
-#include "src/models/error.h"
+#include "../enums/DataType.h"
+#include "../enums/ExprNodeType.h"
+#include "../models/weighttable.h"
+#include "../models/error.h"
 
 
 class ExprNode

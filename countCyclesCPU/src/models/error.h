@@ -4,7 +4,7 @@
 #include <QString>
 #include <QHash>
 
-#include "src/enums/ErrorType.h"
+#include "../enums/ErrorType.h"
 
 
 class Error
