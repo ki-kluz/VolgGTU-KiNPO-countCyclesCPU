@@ -5,8 +5,8 @@
 #include <QMap>
 #include <QSet>
 
-#include "src/models/error.h"
-#include "src/models/exprnode.h"
+#include "../models/error.h"
+#include "../models/exprnode.h"
 
 
 namespace parse_utils

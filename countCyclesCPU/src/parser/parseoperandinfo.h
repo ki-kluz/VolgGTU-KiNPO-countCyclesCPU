@@ -4,8 +4,8 @@
 #include <QString>
 #include <QSet>
 
-#include "src/models/error.h"
-#include "src/models/operandinfo.h"
+#include "../models/error.h"
+#include "../models/operandinfo.h"
 
 
 namespace parse_utils

@@ -11,5 +11,8 @@ SOURCES += \
             test_calculatecost.cpp \
             test_getoperationcost.cpp \
             test_parsetreefromstring.cpp \
+            ../countCyclesCPU/src/models/error.cpp \
+            ../countCyclesCPU/src/models/exprnode.cpp \
+            ../countCyclesCPU/src/models/weightkey.cpp \
             ../countCyclesCPU/src/models/weighttable.cpp \
-            ../countCyclesCPU/src/models/weightkey.cpp
+            ../countCyclesCPU/src/parser/parsetreefromstring.cpp

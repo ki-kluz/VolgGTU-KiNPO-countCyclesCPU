@@ -6,8 +6,8 @@
 #include <QPair>
 #include <optional>
 
-#include "src/models/error.h"
-#include "src/models/weightkey.h"
+#include "../models/error.h"
+#include "../models/weightkey.h"
 
 
 namespace parse_utils

@@ -8,6 +8,6 @@ namespace parse_utils
         const QMap<QString, DataType>& operandsInfo,
         QSet<Error>& errors
     ) {
-
+        return nullptr;     // Заглушка
     }
 }
