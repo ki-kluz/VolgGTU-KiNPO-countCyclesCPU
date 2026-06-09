@@ -86,7 +86,7 @@ void GetOperationCostTest::test_getOperationCost()
 
     // Если тест требует пользовательского веса, добавляем его
     if (useCustomWeight) {
-        WeightKey key(op, type, TYPE_UNKNOWN);
+        WeightKey key(op, type, type);
         table.addUserWeight(key, customWeightValue);
     }
 
