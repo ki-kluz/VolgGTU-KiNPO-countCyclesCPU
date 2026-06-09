@@ -7,6 +7,6 @@ namespace parse_utils
         const QString& operandStr,
         QSet<Error>& errors
     ) {
-
+        return OperandInfo();   // Заглушка
     }
 }

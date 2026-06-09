@@ -7,6 +7,6 @@ namespace parse_utils
         const QString& weightStr,
         QSet<Error>& errors
     ) {
-
+        return std::nullopt;    // Заглушка
     }
 }

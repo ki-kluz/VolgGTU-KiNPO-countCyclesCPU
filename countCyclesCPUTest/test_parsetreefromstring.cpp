@@ -111,7 +111,7 @@ void ParseTreeFromStringTest::test_parseTreeFromString_data()
     QTest::newRow("11. Empty expression") << "" << vars << false << expErrors;
 
     // Тест 12: Неизвестная переменная
-    vars = {{"a", TYPE_INT}}; // b отсутствует в словаре
+    vars = {{"a", TYPE_INT}};
     expErrors.clear();
     err = Error();
     err.setType(ERR_MISSING_TYPE_DECLARATION);
