@@ -2,7 +2,8 @@
 
 
 Error::Error() {
-
+    type = ERR_NONE;
+    pos = -1;
 }
 
 void Error::setType(ErrorType type) { this->type = type; }
@@ -24,7 +25,13 @@ QString Error::generateErrorMessage() const {
 }
 
 bool Error::operator==(const Error& other) const {
-    return false;   // Заглушка
+    return type == other.type &&
+           pos == other.pos &&
+           objectName == other.objectName &&
+           expected == other.expected &&
+           actual == other.actual &&
+           inputFilePath == other.inputFilePath &&
+           outputFilePath == other.outputFilePath;
 }
 
 // Функция хеширования (обязательна для QSet)
