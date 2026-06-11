@@ -30,10 +30,10 @@ enum ErrorType {
 
     // Ошибки парсинга файла весов -> parseWeightInfo
     ERR_INVALID_LINE_FORMAT,                // Строка не соответствует допустимому формату в файле весов
-    ERR_MISSING_CONVERT_KEYWORD,            // Для преобразования типов отсутствует ключевое слово convert (спорит с ERR_INVALID_LINE_FORMAT)
+    ERR_MISSING_CONVERT_KEYWORD,            // Для преобразования типов отсутствует ключевое слово convert
     ERR_UNRECOGNIZED_OBJECT,                // Указан неизвестный тип данных (из DataType) или оператор
-    ERR_INVALID_WEIGHT_FORMAT,              // Вес операции не является натуральным числом (спорит с ERR_WEIGHT_OUT_OF_RANGE)
-    ERR_WEIGHT_OUT_OF_RANGE,                // Вес операции не принадлежит указанному диапазону (можно относить и НЕ НАТУРАЛЬНЫЕ числа)
+    ERR_INVALID_WEIGHT_FORMAT,              // Вес операции не является натуральным числом
+    ERR_WEIGHT_OUT_OF_RANGE,                // Вес операции не принадлежит указанному диапазону
     ERR_SAME_TYPE_CONVERSION,               // Конфликт типов при преобразовании в тот же тип
     ERR_DUPLICATE_WEIGHT_DEFINITION,        // Дублирование описания операции (в main)
 

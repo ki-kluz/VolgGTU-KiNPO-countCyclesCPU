@@ -1,5 +1,7 @@
-#include "typeutils.h"
 #include <QHash>
+#include "typeutils.h"
+#include "../../config.h"
+
 
 namespace type_utils
 {
@@ -163,7 +165,7 @@ namespace type_utils
 
         // Если токен успешно распознан как число, проверяем его диапазон
         if (ok && type != DataType::TYPE_BOOL && type != DataType::TYPE_CHAR) {
-            if (checkValue < -1000000.0 || checkValue > 1000000.0) {
+            if (checkValue < config::MIN_OPERAND_VALUE || checkValue > config::MAX_OPERAND_VALUE) {
                 Error err;
                 err.setType(ERR_OPERAND_OUT_OF_RANGE);
                 err.setObjectName(token);

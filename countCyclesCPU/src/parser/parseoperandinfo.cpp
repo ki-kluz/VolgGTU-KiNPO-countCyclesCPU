@@ -25,7 +25,7 @@ namespace parse_utils
                 // Сформировать и вернуть объект OperandInfo
                 return OperandInfo(name, "", type);
             } else {    // Иначе (тип не распознан)
-                // Вернуть соответствующую ошибку
+                // Добавить соответствующую ошибку
                 Error err;
                 err.setType(ERR_UNSUPPORTED_TYPE);  // Указан неподдерживаемый тип данных
                 err.setObjectName(typeStr);
@@ -37,7 +37,7 @@ namespace parse_utils
         }
         // Иначе (неверный формат строки)
         else {
-            // Вернуть соответствующую ошибку
+            // Добавить соответствующую ошибку
             Error err;
             err.setType(ERR_MISSING_TYPE_DECLARATION);  // Неполное описание переменных
             err.setObjectName(operandStr);

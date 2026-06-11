@@ -22,6 +22,7 @@ SOURCES += \
 
 
 HEADERS += \
+    config.h \
     src/enums/DataType.h \
     src/enums/ErrorType.h \
     src/enums/ExprNodeType.h \
