@@ -24,9 +24,7 @@ enum ErrorType {
     ERR_INSUFFICIENT_OPERANDS,              // Дефицит операндов для выполнения операции в ОПЗ
     ERR_EXCESS_OPERANDS,                    // Избыток операндов в выражении
     ERR_INVALID_TOKEN,                      // Присутствие в выражении недопустимых символов/операций
-    ERR_UNSUPPORTED_OPERATION_FOR_TYPE,     // (NEW) Применение недопустимых операций к типу
     ERR_MAX_OPERATIONS_EXCEEDED,            // Превышено допустимое количество операций
-    ERR_NARROWING_CONVERSION,               // (NEW) Сужающее преобразование (от большей размерности к меньшей)
 
     // Ошибки парсинга файла весов -> parseWeightInfo
     ERR_INVALID_LINE_FORMAT,                // Строка не соответствует допустимому формату в файле весов
@@ -38,7 +36,9 @@ enum ErrorType {
     ERR_DUPLICATE_WEIGHT_DEFINITION,        // Дублирование описания операции (в main)
 
     // Ошибки вычислений -> ExprNode::calculateCost
-    ERR_MAX_COST_EXCEEDED                   // (NEW) Превышение лимита стоимости в 10000 тактов
+    ERR_UNSUPPORTED_OPERATION_FOR_TYPE,     // Применение недопустимых операций к типу
+    ERR_NARROWING_CONVERSION,               // Сужающее преобразование (от большей размерности к меньшей)
+    ERR_MAX_COST_EXCEEDED                   // Превышение лимита стоимости в 10000 тактов
 };
 
 #endif // ERRORTYPE_H

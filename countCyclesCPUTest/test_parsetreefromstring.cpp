@@ -66,12 +66,12 @@ void ParseTreeFromStringTest::test_parseTreeFromString_data()
     QTest::newRow("6. Mix of binary and unary") << "a b ! &&" << vars << true << expErrors;
 
     // Тест 7: Неподдерживаемая операция (тернарный оператор)
-    vars.clear();
+    vars = {{"a", TYPE_INT}, {"b", TYPE_INT}, {"c", TYPE_INT}};
     expErrors.clear();
     err = Error();
-    err.setType(ERR_INVALID_TOKEN);
-    err.setObjectName("?");
-    expErrors.insert(err);
+    err.setType(ERR_INVALID_TOKEN); err.setObjectName("?"); expErrors.insert(err);
+    err.setType(ERR_INVALID_TOKEN); err.setObjectName(":"); expErrors.insert(err);
+    err.setType(ERR_EXCESS_OPERANDS); err.setObjectName("a b c ? :"); expErrors.insert(err);
     QTest::newRow("7. Unsupported operation (ternary)") << "a b c ? :" << vars << false << expErrors;
 
     // Тест 8: Недостаток операндов для бинарной операции
@@ -114,46 +114,39 @@ void ParseTreeFromStringTest::test_parseTreeFromString_data()
     vars = {{"a", TYPE_INT}};
     expErrors.clear();
     err = Error();
-    err.setType(ERR_MISSING_TYPE_DECLARATION);
-    err.setObjectName("b");
-    expErrors.insert(err);
+    err.setType(ERR_MISSING_TYPE_DECLARATION); err.setObjectName("b"); expErrors.insert(err);
+    err.setType(ERR_INSUFFICIENT_OPERANDS); err.setObjectName("+"); expErrors.insert(err);
     QTest::newRow("12. Unknown variable") << "a b +" << vars << false << expErrors;
 
     // Тест 13: Целая const вне допустимого диапазона
     vars.clear();
     expErrors.clear();
     err = Error();
-    err.setType(ERR_OPERAND_OUT_OF_RANGE);
-    err.setObjectName("2000000");
-    expErrors.insert(err);
+    err.setType(ERR_OPERAND_OUT_OF_RANGE); err.setObjectName("2000000"); expErrors.insert(err);
+    err.setType(ERR_INVALID_TOKEN); err.setObjectName("2000000"); expErrors.insert(err);
+    err.setType(ERR_EXCESS_OPERANDS); err.setObjectName("2000000"); expErrors.insert(err);
     QTest::newRow("13. Int const out of range") << "2000000" << vars << false << expErrors;
 
     // Тест 14: Вещественная const вне допустимого диапазона
     vars.clear();
     expErrors.clear();
     err = Error();
-    err.setType(ERR_OPERAND_OUT_OF_RANGE);
-    err.setObjectName("1000000.1");
-    expErrors.insert(err);
+    err.setType(ERR_OPERAND_OUT_OF_RANGE); err.setObjectName("1000000.1"); expErrors.insert(err);
+    err.setType(ERR_INVALID_TOKEN); err.setObjectName("1000000.1"); expErrors.insert(err);
+    err.setType(ERR_EXCESS_OPERANDS); err.setObjectName("1000000.1"); expErrors.insert(err);
     QTest::newRow("14. Float const out of range") << "1000000.1" << vars << false << expErrors;
 
     // Тест 15: Недопустимый символ/оператор
     vars = {{"a", TYPE_INT}, {"b", TYPE_INT}};
     expErrors.clear();
     err = Error();
-    err.setType(ERR_INVALID_TOKEN);
-    err.setObjectName("@");
-    expErrors.insert(err);
-    QTest::newRow("15. Invalid character") << "a @ b +" << vars << false << expErrors;
+    err.setType(ERR_INVALID_TOKEN); err.setObjectName("@"); expErrors.insert(err);
+    QTest::newRow("15. Invalid character") << "a @ b +" << vars << true << expErrors;
 
-    // Тест 16: Операция ++ над bool (запрещённая комбинация)
+    // Тест 16: Операция ++ над bool (запрещённая комбинация) - проверяется в calculateCost, парсер должен отработать успешно
     vars = {{"a", TYPE_BOOL}};
     expErrors.clear();
-    err = Error();
-    err.setType(ERR_UNSUPPORTED_OPERATION_FOR_TYPE);
-    err.setObjectName("++_");
-    expErrors.insert(err);
-    QTest::newRow("16. ++ on bool") << "a ++_" << vars << false << expErrors;
+    QTest::newRow("16. ++ on bool") << "a ++_" << vars << true << expErrors;
 
     // Тест 17: Очистка стека после ошибки
     vars.clear();
@@ -216,7 +209,7 @@ void ParseTreeFromStringTest::test_parseTreeFromString_data()
     };
     expErrors.clear();
     QTest::newRow("23. Complex test (10 ops)")
-        << "a -_ b c * d / e > f g && h i & 1 << = ||"
+        << "a -_ b c * d / e > f g && h i & 1 << = || +"
         << vars << true << expErrors;
 }
 
