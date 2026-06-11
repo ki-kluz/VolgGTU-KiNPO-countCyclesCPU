@@ -2,9 +2,11 @@
 #define TYPEUTILS_H
 
 #include <QString>
+#include <QSet>
 
-#include "src/enums/DataType.h"
-#include "src/enums/ExprNodeType.h"
+#include "../enums/DataType.h"
+#include "../enums/ExprNodeType.h"
+#include "../models/error.h"
 
 
 namespace type_utils
@@ -15,7 +17,7 @@ namespace type_utils
     QString dataTypeToString(DataType type);
     QString exprNodeTypeToString(ExprNodeType type);
 
-    DataType parseConstantType(const QString& token);
+    DataType getConstType(const QString& token, QSet<Error>& errors);
 }
 
 #endif // TYPEUTILS_H

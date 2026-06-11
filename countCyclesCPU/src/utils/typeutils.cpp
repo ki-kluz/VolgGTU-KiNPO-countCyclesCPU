@@ -113,9 +113,10 @@ namespace type_utils
         return map.value(type, "unknown");
     }
 
-    DataType parseConstantType(const QString& token) {
+    DataType getConstType(const QString& token, QSet<Error>& errors) {
         DataType type = DataType::TYPE_UNKNOWN;
         bool ok = false;
+        double checkValue = 0.0;
 
         if (token == "true" || token == "false") {
             type = DataType::TYPE_BOOL;
@@ -124,42 +125,54 @@ namespace type_utils
             type = DataType::TYPE_CHAR;
         }
         else if (token.endsWith('F', Qt::CaseInsensitive)) {
-            token.left(token.length() - 1).toDouble(&ok);
+            checkValue = token.left(token.length() - 1).toDouble(&ok);
             if (ok) {
                 type = DataType::TYPE_FLOAT;
             }
         }
         else if (token.endsWith("LL", Qt::CaseInsensitive)) {
-            token.left(token.length() - 2).toLongLong(&ok);
+            checkValue = static_cast<double>(token.left(token.length() - 2).toLongLong(&ok));
             if (ok) {
                 type = DataType::TYPE_LLONG;
             }
         }
         else if (token.endsWith('L', Qt::CaseInsensitive)) {
-            token.left(token.length() - 1).toLong(&ok);
+            checkValue = static_cast<double>(token.left(token.length() - 1).toLong(&ok));
             if (ok) {
                 type = DataType::TYPE_LONG;
             }
         }
         else if (token.endsWith('S', Qt::CaseInsensitive)) {
-            token.left(token.length() - 1).toShort(&ok);
+            checkValue = static_cast<double>(token.left(token.length() - 1).toShort(&ok));
             if (ok) {
                 type = DataType::TYPE_SHORT;
             }
         }
         else if (token.contains('.')) {
-            token.toDouble(&ok);
+            checkValue = token.toDouble(&ok);
             if (ok) {
                 type = DataType::TYPE_DOUBLE;
             }
         }
         else {
-            token.toInt(&ok);
+            checkValue = static_cast<double>(token.toInt(&ok));
             if (ok) {
                 type = DataType::TYPE_INT;
             }
         }
 
+        // Если токен успешно распознан как число, проверяем его диапазон
+        if (ok && type != DataType::TYPE_BOOL && type != DataType::TYPE_CHAR) {
+            if (checkValue < -1000000.0 || checkValue > 1000000.0) {
+                Error err;
+                err.setType(ERR_OPERAND_OUT_OF_RANGE);
+                err.setObjectName(token);
+                errors.insert(err);
+
+                // Сбрасываем тип
+                type = DataType::TYPE_UNKNOWN;
+            }
+        }
         return type;
     }
 }

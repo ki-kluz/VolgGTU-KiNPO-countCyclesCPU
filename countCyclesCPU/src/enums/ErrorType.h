@@ -4,7 +4,7 @@
 enum ErrorType {
     ERR_NONE,                               // (по умолчанию)
 
-    // Ошибки файлов (ввод/вывод/веса)
+    // Ошибки файлов (ввод/вывод/веса) -> readInputFile/writeOutputFile
     ERR_INPUT_FILE_NOT_FOUND,               // Входной файл не существует или нет доступа
     ERR_INPUT_FILE_EMPTY,                   // Входной файл пуст
     ERR_WEIGHTS_FILE_NOT_FOUND,             // Файл весов не существует или нет доступа
@@ -12,30 +12,32 @@ enum ErrorType {
     ERR_OUTPUT_FILE_NOT_SPECIFIED,          // Выходной файл не указан
     ERR_OUTPUT_FILE_CANNOT_CREATE,          // Невозможно создать указанный выходной файл
 
-    // Ошибки декларации и типов
+    // Ошибки декларации и типов -> parseOperandInfo
     ERR_MISSING_TYPE_DECLARATION,           // Неполное описание переменных - для операнда не указан тип
     ERR_UNSUPPORTED_TYPE,                   // Указан неподдерживаемый тип данных
-    ERR_DUPLICATE_OPERAND,                  // Дублирование описания операнда
-    ERR_NARROWING_CONVERSION,               // (NEW) Сужающее преобразование (от большей размерности к меньшей)
+    ERR_DUPLICATE_OPERAND,                  // Дублирование описания операнда (в main)
 
-    // Ошибки выражений и ОПЗ
+    // Ошибки const -> getConstType
+    ERR_OPERAND_OUT_OF_RANGE,               // Операнд не принадлежит указанному диапазону
+
+    // Ошибки выражений и ОПЗ -> parseTreeFromString
     ERR_INSUFFICIENT_OPERANDS,              // Дефицит операндов для выполнения операции в ОПЗ
     ERR_EXCESS_OPERANDS,                    // Избыток операндов в выражении
     ERR_INVALID_TOKEN,                      // Присутствие в выражении недопустимых символов/операций
     ERR_UNSUPPORTED_OPERATION_FOR_TYPE,     // (NEW) Применение недопустимых операций к типу
     ERR_MAX_OPERATIONS_EXCEEDED,            // Превышено допустимое количество операций
-    ERR_OPERAND_OUT_OF_RANGE,               // Операнд не принадлежит указанному диапазону
+    ERR_NARROWING_CONVERSION,               // (NEW) Сужающее преобразование (от большей размерности к меньшей)
 
-    // Ошибки парсинга файла весов
+    // Ошибки парсинга файла весов -> parseWeightInfo
     ERR_INVALID_LINE_FORMAT,                // Строка не соответствует допустимому формату в файле весов
-    ERR_MISSING_CONVERT_KEYWORD,            // Для преобразования типов отсутствует ключевое слово convert
-    ERR_UNRECOGNIZED_OBJECT,                // Указан неизвестный тип данных или оператор
-    ERR_INVALID_WEIGHT_FORMAT,              // Вес операции не является натуральным числом
-    ERR_WEIGHT_OUT_OF_RANGE,                // Вес операции не принадлежит указанному диапазону
-    ERR_DUPLICATE_WEIGHT_DEFINITION,        // Дублирование описания операции
+    ERR_MISSING_CONVERT_KEYWORD,            // Для преобразования типов отсутствует ключевое слово convert (спорит с ERR_INVALID_LINE_FORMAT)
+    ERR_UNRECOGNIZED_OBJECT,                // Указан неизвестный тип данных (из DataType) или оператор
+    ERR_INVALID_WEIGHT_FORMAT,              // Вес операции не является натуральным числом (спорит с ERR_WEIGHT_OUT_OF_RANGE)
+    ERR_WEIGHT_OUT_OF_RANGE,                // Вес операции не принадлежит указанному диапазону (можно относить и НЕ НАТУРАЛЬНЫЕ числа)
     ERR_SAME_TYPE_CONVERSION,               // Конфликт типов при преобразовании в тот же тип
+    ERR_DUPLICATE_WEIGHT_DEFINITION,        // Дублирование описания операции (в main)
 
-    // Ошибки вычислений
+    // Ошибки вычислений -> ExprNode::calculateCost
     ERR_MAX_COST_EXCEEDED                   // (NEW) Превышение лимита стоимости в 10000 тактов
 };
 

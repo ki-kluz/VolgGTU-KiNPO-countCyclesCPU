@@ -18,4 +18,5 @@ SOURCES += \
             ../countCyclesCPU/src/models/weighttable.cpp \
             ../countCyclesCPU/src/parser/parseoperandinfo.cpp \
             ../countCyclesCPU/src/parser/parsetreefromstring.cpp \
-            ../countCyclesCPU/src/parser/parseweightinfo.cpp
+            ../countCyclesCPU/src/parser/parseweightinfo.cpp \
+            ../countCyclesCPU/src/utils/typeutils.cpp
