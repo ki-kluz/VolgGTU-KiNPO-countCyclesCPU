@@ -18,6 +18,7 @@ SOURCES += \
     src/parser/parseoperandinfo.cpp \
     src/parser/parsetreefromstring.cpp \
     src/parser/parseweightinfo.cpp \
+    src/utils/operatorutils.cpp \
     src/utils/typeutils.cpp
 
 
@@ -37,6 +38,7 @@ HEADERS += \
     src/parser/parseoperandinfo.h \
     src/parser/parsetreefromstring.h \
     src/parser/parseweightinfo.h \
+    src/utils/operatorutils.h \
     src/utils/typeutils.h
 
 

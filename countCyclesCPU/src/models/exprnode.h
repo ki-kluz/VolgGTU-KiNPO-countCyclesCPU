@@ -2,6 +2,7 @@
 #define EXPRNODE_H
 
 #include <QString>
+#include <QSet>
 
 #include "../enums/DataType.h"
 #include "../enums/ExprNodeType.h"
@@ -33,7 +34,7 @@ public:
     ExprNode* getLeft() const;
     ExprNode* getRight() const;
 
-    int calculateCost(const WeightTable& weights);
+    int calculateCost(const WeightTable& weights, QSet<Error>& errors);
 
     static bool isUnaryOperator(ExprNodeType type);
     static bool isBinaryOperator(ExprNodeType type);

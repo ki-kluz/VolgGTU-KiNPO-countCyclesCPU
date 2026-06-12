@@ -1,5 +1,7 @@
-#include "exprnode.h"
 #include <QSet>
+
+#include "exprnode.h"
+#include "../utils/operatorutils.h"
 
 
 ExprNode::ExprNode() {
@@ -56,9 +58,65 @@ ExprNode* ExprNode::getLeft() const { return left; }
 ExprNode* ExprNode::getRight() const { return right; }
 
 
-int ExprNode::calculateCost(const WeightTable& weights) {
-    return 0;   // Заглушка
+int ExprNode::calculateCost(const WeightTable& weights, QSet<Error>& errors) {
+    // Если тип узла – операнд (переменная или значение)
+    if (type == NODE_VALUE || type == NODE_VARIABLE) {
+        // Вернуть результирующую стоимость = 0
+        return 0;
+    }
+
+    // Обнулить результирующую стоимость
+    int totalCost = 0;
+
+    // Если тип узла – бинарная операция
+    if (isBinaryOperator(type)) {
+        // Прибавить к результирующей стоимости вес левого операнда
+        totalCost += left->calculateCost(weights, errors);
+        // Прибавить к результирующей стоимости вес правого операнда
+        totalCost += right->calculateCost(weights, errors);
+    }
+    // Иначе, если тип операции – унарная операция
+    else if (isUnaryOperator(type)) {
+        // Прибавить к результирующей стоимости вес левого операнда
+        totalCost += left->calculateCost(weights, errors);
+    }
+
+    // Получаем типы потомков
+    DataType leftType = left ? left->getDataType() : TYPE_UNKNOWN;
+    DataType rightType = right ? right->getDataType() : TYPE_UNKNOWN;
+
+    // === Валидация смысла выражения ===
+    operator_utils::checkSupportedOperation(type, leftType, rightType, errors);
+    operator_utils::checkNarrowingConversion(type, leftType, rightType, errors);
+
+    // Тип, по которому будет искаться вес самой операции
+    DataType priorityType = leftType;
+
+    // Если необходимо преобразование типов (только для бинарных операций)
+    if (isBinaryOperator(type) && isConversionNecessary(leftType, rightType)) {
+        // Определить приоритет тип из левого и правого операнда
+        priorityType = getGeneralType(leftType, rightType);
+
+        // Прибавить к результирующей стоимости вес преобразования левого операнда к приоритетному типу
+        totalCost += weights.getConvertCost(leftType, priorityType);
+
+        // Прибавить к результирующей стоимости вес преобразования правого операнда к приоритетному типу
+        totalCost += weights.getConvertCost(rightType, priorityType);
+    }
+
+    // Определить результирующий тип текущей операции
+    this->dataType = getResultType(type, leftType, rightType);
+
+    // Прибавить к результирующей стоимости вес самой операции
+    totalCost += weights.getOperationCost(type, priorityType);
+
+    // === Валидация лимита стоимости ===
+    operator_utils::checkMaxCostLimit(totalCost, errors);
+
+    // Вернуть результирующую стоимость
+    return totalCost;
 }
+
 
 bool ExprNode::isUnaryOperator(ExprNodeType type) {
     static const QSet<ExprNodeType> unaryOps = {
@@ -67,6 +125,7 @@ bool ExprNode::isUnaryOperator(ExprNodeType type) {
     };
     return unaryOps.contains(type);
 }
+
 
 bool ExprNode::isBinaryOperator(ExprNodeType type) {
     static const QSet<ExprNodeType> binaryOps = {
@@ -81,10 +140,12 @@ bool ExprNode::isBinaryOperator(ExprNodeType type) {
     return binaryOps.contains(type);
 }
 
+
 DataType ExprNode::getGeneralType(DataType left, DataType right) {
     // Порядок типов (в DataType) соответствует приоритету неявного преобразования
     return (left > right) ? left : right;
 }
+
 
 DataType ExprNode::getResultType(ExprNodeType op, DataType left, DataType right) {
     DataType result = TYPE_UNKNOWN;
@@ -121,6 +182,7 @@ DataType ExprNode::getResultType(ExprNodeType op, DataType left, DataType right)
     }
     return result;
 }
+
 
 bool ExprNode::isConversionNecessary(DataType left, DataType right) {
     return left != right;

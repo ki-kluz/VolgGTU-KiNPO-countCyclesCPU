@@ -225,7 +225,7 @@ void CalculateCostTest::test_calculateCost()
     // Считаем стоимость
     int actualCost = 0;
     if (root != nullptr) {
-        actualCost = root->calculateCost(weightTable);
+        actualCost = root->calculateCost(weightTable, actualErrors);
         delete root;
     }
 
