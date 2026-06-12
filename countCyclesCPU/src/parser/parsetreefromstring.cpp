@@ -4,6 +4,7 @@
 
 #include "parsetreefromstring.h"
 #include "../utils/typeutils.h"
+#include "../../config.h"
 
 
 namespace parse_utils
@@ -37,9 +38,9 @@ namespace parse_utils
             }
             // Проверяем, является ли токен известным оператором
             else if (opType != NODE_UNKNOWN) {
-                // Увеличиваем счетчик операций и проверяем лимит (20 операций)
+                // Увеличиваем счетчик операций и проверяем лимит
                 operationCount++;
-                if (operationCount > 20) {
+                if (operationCount > config::MAX_OPERATIONS) {
                     while (!stack.isEmpty()) {
                         delete stack.pop();
                     }

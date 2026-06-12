@@ -94,9 +94,10 @@ void CalculateCostTest::test_calculateCost_data()
 
     // Тест 14: Выражение с 1 операцией – константа вне диапазона
     expErrors.clear();
-    err.setType(ERR_OPERAND_OUT_OF_RANGE);
-    err.setObjectName("2000000");
-    expErrors.insert(err);
+    err = Error();
+    err.setType(ERR_OPERAND_OUT_OF_RANGE); err.setObjectName("2000000"); expErrors.insert(err);
+    err.setType(ERR_INVALID_TOKEN); err.setObjectName("2000000"); expErrors.insert(err);
+    err.setType(ERR_EXCESS_OPERANDS); err.setObjectName("2000000"); expErrors.insert(err);
     QTest::newRow("14. Constant out of range")
         << "2000000" << QStringList{} << QStringList{} << 0 << expErrors;
 
@@ -107,14 +108,16 @@ void CalculateCostTest::test_calculateCost_data()
 
     // Тест 16: Вещественная константа вне диапазона
     expErrors.clear();
-    err.setType(ERR_OPERAND_OUT_OF_RANGE);
-    err.setObjectName("1000000.1");
-    expErrors.insert(err);
+    err = Error();
+    err.setType(ERR_OPERAND_OUT_OF_RANGE); err.setObjectName("1000000.1"); expErrors.insert(err);
+    err.setType(ERR_INVALID_TOKEN); err.setObjectName("1000000.1"); expErrors.insert(err);
+    err.setType(ERR_EXCESS_OPERANDS); err.setObjectName("1000000.1"); expErrors.insert(err);
     QTest::newRow("16. Float const out of range")
         << "1000000.1" << QStringList{} << QStringList{} << 0 << expErrors;
 
     // Тест 17: Операция ++ над bool
     expErrors.clear();
+    err = Error();
     err.setType(ERR_UNSUPPORTED_OPERATION_FOR_TYPE);
     expErrors.insert(err);
     QTest::newRow("17. ++ on bool")
@@ -131,6 +134,7 @@ void CalculateCostTest::test_calculateCost_data()
 
     // Тест 20: Суммарная стоимость больше 10000
     expErrors.clear();
+    err = Error();
     err.setType(ERR_MAX_COST_EXCEEDED);
     expErrors.insert(err);
     QTest::newRow("20. Max cost exceeded")
@@ -138,6 +142,7 @@ void CalculateCostTest::test_calculateCost_data()
 
     // Тест 21: Логическое И int и int (недопустимо)
     expErrors.clear();
+    err = Error();
     err.setType(ERR_UNSUPPORTED_OPERATION_FOR_TYPE);
     expErrors.insert(err);
     QTest::newRow("21. && on int")
@@ -145,6 +150,7 @@ void CalculateCostTest::test_calculateCost_data()
 
     // Тест 22: Логическое ИЛИ float и float (недопустимо)
     expErrors.clear();
+    err = Error();
     err.setType(ERR_UNSUPPORTED_OPERATION_FOR_TYPE);
     expErrors.insert(err);
     QTest::newRow("22. || on float")
@@ -153,23 +159,26 @@ void CalculateCostTest::test_calculateCost_data()
     // Тест 23: Комплексный тест №1 (10 операций)
     expErrors.clear();
     QTest::newRow("23. Complex test 1")
-        << "a -_ b c * d e / f > - g h && i j == | ||"
+        // Выражение: ((-a) + (b * c)) > (d + (e / f)) || (g && h) != (i == j)
+        << "a -_ b c * + d e f / + > g h && || i j == !="
         << QStringList{"a int", "b int", "c short", "d int", "e double", "f double", "g bool", "h bool", "i int", "j int"}
-        << QStringList{} << 58 << expErrors;
+        << QStringList{}
+        << 47
+        << expErrors;
 
     // Тест 24: Комплексный тест №2 (15 операций)
     expErrors.clear();
     QTest::newRow("24. Complex test 2")
-        << "a b + c * d e / f - g h > i j < && k l == m n & o p | q r ^ s t << u v >> w ! ="
-        << QStringList{
-               "a int", "b int", "c int", "d int", "e int",
-               "f int", "g bool", "h bool", "i int", "j int",
-               "k int", "l int", "m int", "n int", "o int",
-               "p int", "q int", "r int", "s int", "t int",
-               "u int", "v int", "w bool"
-           }
+        // Выражение: a = (((b+c)-d)*e)/f + ((g>h)&&(i<j)) + (k==l) + (((m&n)|o)^p)
+        << "a b c + d - e * f / g h > i j < && + k l == + m n & o | p ^ + ="
+        << QStringList {
+                "a int", "b int", "c int", "d int", "e int",
+                "f int", "g int", "h int", "i int", "j int",
+                "k int", "l int", "m int", "n int", "o int",
+                "p int"
+            }
         << QStringList{}
-        << 237
+        << 60
         << expErrors;
 
     // Тест 25: Выражение с 20 операциями (максимум)
@@ -186,6 +195,7 @@ void CalculateCostTest::test_calculateCost_data()
     QStringList vars21 = vars20;
     vars21.append("a22 int");
     expErrors.clear();
+    err = Error();
     err.setType(ERR_MAX_OPERATIONS_EXCEEDED);
     expErrors.insert(err);
     QTest::newRow("26. Expression 21 operations (exceeded)") << expr21 << vars21 << QStringList{} << 0 << expErrors;

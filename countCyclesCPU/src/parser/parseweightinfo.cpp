@@ -76,8 +76,7 @@ namespace parse_utils
             // Если операция и тип корректны, а вес является допустимым числом
             if (okOp && okType && okWeight && weight > 0) {
                 // Сформировать ключ операции WeightKey
-                // Для обычной операции второй тип не указывается, используем TYPE_UNKNOWN
-                WeightKey key(op, type, TYPE_UNKNOWN);
+                WeightKey key(op, type, type);
 
                 // Вернуть объект std::optional, содержащий пару (ключ, вес)
                 return qMakePair(key, weight);

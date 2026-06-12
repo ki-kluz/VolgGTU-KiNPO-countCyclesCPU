@@ -1,4 +1,5 @@
 #include "operatorutils.h"
+#include "../../config.h"
 
 
 namespace operator_utils
@@ -7,7 +8,8 @@ namespace operator_utils
         bool isValid = true;
 
         // Примечание: инкремент(++_ и _++)/декремент(--_ и _--) ОШИБКА для типа BOOL
-        if (op == NODE_PREF_INC || op == NODE_PREF_DEC || op == NODE_POST_INC || op == NODE_POST_DEC) {
+        if (op == NODE_PREF_INC || op == NODE_PREF_DEC || op == NODE_POST_INC || op == NODE_POST_DEC)
+        {
             if (left == TYPE_BOOL) {
                 Error err;
                 err.setType(ERR_UNSUPPORTED_OPERATION_FOR_TYPE);
@@ -15,11 +17,21 @@ namespace operator_utils
                 isValid = false;
             }
         }
-        // Примечание: битовые операции и остаток от деления ТОЛЬКО для целых чисел
+        // Примечание: логические операции ТОЛЬКО для типа BOOL
+        else if (op == NODE_LOG_AND || op == NODE_LOG_OR || op == NODE_LOG_NOT)
+        {
+            if (left != TYPE_BOOL || (right != TYPE_UNKNOWN && right != TYPE_BOOL)) {
+                Error err;
+                err.setType(ERR_UNSUPPORTED_OPERATION_FOR_TYPE);
+                errors.insert(err);
+                isValid = false;
+            }
+        }
+        // Примечание: битовые операции и остаток от деления ТОЛЬКО для ЦЕЛЫХ ЧИСЕЛ
         else if (op == NODE_REMAINDER || op == NODE_REMAIN_EQUAL || op == NODE_BIT_AND ||
                  op == NODE_BIT_OR || op == NODE_BIT_XOR || op == NODE_BIT_NOT ||
-                 op == NODE_SHIFT_LEFT || op == NODE_SHIFT_RIGHT) {
-
+                 op == NODE_SHIFT_LEFT || op == NODE_SHIFT_RIGHT)
+        {
             static const QSet<DataType> integralTypes{
                 TYPE_CHAR, TYPE_SHORT, TYPE_INT, TYPE_LONG, TYPE_LLONG
             };
@@ -52,7 +64,7 @@ namespace operator_utils
     }
 
     bool checkMaxCostLimit(int totalCost, QSet<Error>& errors) {
-        if (totalCost > 10000) {
+        if (totalCost > config::MAX_COST) {
             Error err;
             err.setType(ERR_MAX_COST_EXCEEDED);
             errors.insert(err);

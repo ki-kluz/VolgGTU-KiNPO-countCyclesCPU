@@ -111,8 +111,9 @@ int ExprNode::calculateCost(const WeightTable& weights, QSet<Error>& errors) {
     totalCost += weights.getOperationCost(type, priorityType);
 
     // === Валидация лимита стоимости ===
-    operator_utils::checkMaxCostLimit(totalCost, errors);
-
+    if (!operator_utils::checkMaxCostLimit(totalCost, errors)) {
+        return 0;
+    }
     // Вернуть результирующую стоимость
     return totalCost;
 }
@@ -143,7 +144,12 @@ bool ExprNode::isBinaryOperator(ExprNodeType type) {
 
 DataType ExprNode::getGeneralType(DataType left, DataType right) {
     // Порядок типов (в DataType) соответствует приоритету неявного преобразования
-    return (left > right) ? left : right;
+    DataType maxType = (left > right) ? left : right;
+    // Если максимальный тип меньше INT -> расширение до INT
+    if (maxType < TYPE_INT) {
+        return TYPE_INT;
+    }
+    return maxType;
 }
 
 
