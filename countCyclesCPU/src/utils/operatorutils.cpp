@@ -1,5 +1,6 @@
 #include "operatorutils.h"
 #include "../../config.h"
+#include "../utils/typeutils.h"
 
 
 namespace operator_utils
@@ -13,6 +14,9 @@ namespace operator_utils
             if (left == TYPE_BOOL) {
                 Error err;
                 err.setType(ERR_UNSUPPORTED_OPERATION_FOR_TYPE);
+                // === Собираем реальные данные ===
+                err.setObjectName(type_utils::exprNodeTypeToString(op));    // Операция
+                err.setActual(type_utils::dataTypeToString(left));          // Тип
                 errors.insert(err);
                 isValid = false;
             }
@@ -23,6 +27,10 @@ namespace operator_utils
             if (left != TYPE_BOOL || (right != TYPE_UNKNOWN && right != TYPE_BOOL)) {
                 Error err;
                 err.setType(ERR_UNSUPPORTED_OPERATION_FOR_TYPE);
+                // === Собираем реальные данные ===
+                err.setObjectName(type_utils::exprNodeTypeToString(op));
+                DataType badType = (left != TYPE_BOOL) ? left : right;
+                err.setActual(type_utils::dataTypeToString(badType));
                 errors.insert(err);
                 isValid = false;
             }
@@ -32,7 +40,7 @@ namespace operator_utils
                  op == NODE_BIT_OR || op == NODE_BIT_XOR || op == NODE_BIT_NOT ||
                  op == NODE_SHIFT_LEFT || op == NODE_SHIFT_RIGHT)
         {
-            static const QSet<DataType> integralTypes{
+            static const QSet<DataType> integralTypes {
                 TYPE_CHAR, TYPE_SHORT, TYPE_INT, TYPE_LONG, TYPE_LLONG
             };
             bool isLeftIntegral  = integralTypes.contains(left);
@@ -41,6 +49,10 @@ namespace operator_utils
             if (!isLeftIntegral || (right != TYPE_UNKNOWN && !isRightIntegral)) {
                 Error err;
                 err.setType(ERR_UNSUPPORTED_OPERATION_FOR_TYPE);
+                // === Собираем реальные данные ===
+                err.setObjectName(type_utils::exprNodeTypeToString(op));
+                DataType badType = (!isLeftIntegral) ? left : right;
+                err.setActual(type_utils::dataTypeToString(badType));
                 errors.insert(err);
                 isValid = false;
             }
@@ -56,6 +68,8 @@ namespace operator_utils
             if (right > left) { // Опираемся на порядок в enum DataType
                 Error err;
                 err.setType(ERR_NARROWING_CONVERSION);
+                err.setActual(type_utils::dataTypeToString(right));     // что пытаемся присвоить
+                err.setExpected(type_utils::dataTypeToString(left));    // куда пытаемся присвоить
                 errors.insert(err);
                 return false;
             }

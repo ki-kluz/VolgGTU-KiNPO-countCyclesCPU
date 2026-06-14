@@ -209,7 +209,7 @@ void ParseTreeFromStringTest::test_parseTreeFromString_data()
     };
     expErrors.clear();
     QTest::newRow("23. Complex test (10 ops)")
-        << "a -_ b c * d / e > f g && h i & 1 << = || +"
+        << "a -_ b c * d / e > f g && h i & 1 << == || +"
         << vars << true << expErrors;
 }
 
