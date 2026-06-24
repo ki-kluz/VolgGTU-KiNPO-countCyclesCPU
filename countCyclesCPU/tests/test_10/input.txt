@@ -1,0 +1,5 @@
+a b c * + d /
+a float
+b float
+c float
+d float

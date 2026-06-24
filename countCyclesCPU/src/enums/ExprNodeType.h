@@ -1,7 +1,7 @@
 #ifndef EXPRNODETYPE_H
 #define EXPRNODETYPE_H
 
-typedef enum {
+enum ExprNodeType{
     NODE_UNKNOWN,       // (по умолчанию)
     // Базовые узлы (операнды)
     NODE_VALUE,                        // Значение (константа)
@@ -12,7 +12,7 @@ typedef enum {
     NODE_MINUS,                        // Вычитание (-)
     NODE_MULTIPLICATION,               // Умножение (*)
     NODE_DIVISION,                     // Деление (/)
-    NODE_INTEGER_DIVISION,             // Целочисленное деление
+    NODE_INTEGER_DIVISION,             // Целочисленное деление (//)
     NODE_REMAINDER,                    // Остаток от деления (%)
 
     // Инкремент и декремент
@@ -55,6 +55,6 @@ typedef enum {
 
     // Преобразование типов
     NODE_CONVERT                       // Преобразование типа (convert)
-} ExprNodeType;
+};
 
 #endif // EXPRNODETYPE_H

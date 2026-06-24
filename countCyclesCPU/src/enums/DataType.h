@@ -1,7 +1,7 @@
 #ifndef DATATYPE_H
 #define DATATYPE_H
 
-typedef enum {
+enum DataType {
     TYPE_UNKNOWN,       // (по умолчанию)
     TYPE_BOOL,
     TYPE_CHAR,
@@ -11,6 +11,6 @@ typedef enum {
     TYPE_LLONG,
     TYPE_FLOAT,
     TYPE_DOUBLE
-} DataType;
+};
 
 #endif // DATATYPE_H

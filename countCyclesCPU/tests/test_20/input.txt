@@ -1,0 +1,5 @@
+a b + c * d /
+a char
+b int
+c float
+d double

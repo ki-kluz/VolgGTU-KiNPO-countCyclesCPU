@@ -1,0 +1,13 @@
+// Expression: ((a + b) - c)
+digraph G {
+    node0 [label="-"];
+    node0 -> node1;
+    node1 [label="+"];
+    node1 -> node2;
+    node2 [label="a"];
+    node1 -> node3;
+    node3 [label="b"];
+    node0 -> node4;
+    node4 [label="c"];
+}
+// Total CPU cycles: 2

@@ -8,7 +8,7 @@ CONFIG += c++17 cmdline
 SOURCES += \
     main.cpp \
     src/io/generatedot.cpp \
-    src/io/readinputfile.cpp \
+    src/io/readfile.cpp \
     src/io/writeoutputfile.cpp \
     src/models/error.cpp \
     src/models/exprnode.cpp \
@@ -28,7 +28,7 @@ HEADERS += \
     src/enums/ErrorType.h \
     src/enums/ExprNodeType.h \
     src/io/generatedot.h \
-    src/io/readinputfile.h \
+    src/io/readfile.h \
     src/io/writeoutputfile.h \
     src/models/error.h \
     src/models/exprnode.h \

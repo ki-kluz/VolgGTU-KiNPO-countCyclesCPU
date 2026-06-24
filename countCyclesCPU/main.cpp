@@ -3,7 +3,7 @@
 #include <QMap>
 #include <QSet>
 
-#include "src/io/readinputfile.h"
+#include "src/io/readfile.h"
 #include "src/io/writeoutputfile.h"
 
 #include "src/parser/parseoperandinfo.h"
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     ExprNode* root = nullptr;
 
     // Считать данные из первого входного файла
-    readInputFile(inputFile, inputLines, errors);
+    readFile(inputFile, inputLines, errors, FileType::Input);
 
     QString expression = "";
     if (!inputLines.isEmpty()) {
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     // При наличии файла весов
     if (!weightFile.isEmpty()) {
         // Считать данные из второго входного файла
-        readInputFile(weightFile, weightLines, errors);
+        readFile(weightFile, weightLines, errors, FileType::Weight);
 
         // Для каждой строки из файла весов
         for (const QString& line : weightLines) {
