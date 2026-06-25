@@ -169,8 +169,10 @@ namespace type_utils
                 Error err;
                 err.setType(ERR_OPERAND_OUT_OF_RANGE);
                 err.setObjectName(token);
+                err.setExpected(QString("[%1 ... %2]")
+                                    .arg(config::MIN_OPERAND_VALUE)
+                                    .arg(config::MAX_OPERAND_VALUE));
                 errors.insert(err);
-
                 // Сбрасываем тип
                 type = DataType::TYPE_UNKNOWN;
             }

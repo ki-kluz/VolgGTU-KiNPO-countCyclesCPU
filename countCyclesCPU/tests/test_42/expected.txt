@@ -1,0 +1,3 @@
+Error: insufficient operands for operator '+'.
+Error: operand '1000001' is out of the allowed range [-1e+06 ... 1e+06].
+Error: invalid or unsupported token detected in expression.

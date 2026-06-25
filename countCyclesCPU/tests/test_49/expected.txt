@@ -1,0 +1,1 @@
+Error: operation '++_' is not supported for type 'bool'.

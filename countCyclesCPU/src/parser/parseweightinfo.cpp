@@ -64,6 +64,15 @@ namespace parse_utils
         }
         // Иначе, если строка соответствует формату операции (операция, тип, вес)
         else if (parts.size() == 3) {
+            // Если первое слово успешно парсится как тип данных (например, "int"),
+            // значит это попытка конвертации без слова "convert" (например, "int float 5")
+            if (type_utils::stringToDataType(parts[0]) != TYPE_UNKNOWN) {
+                Error err;
+                err.setType(ERR_MISSING_CONVERT_KEYWORD);
+                err.setObjectName(weightStr);
+                errors.insert(err);
+                return std::nullopt;
+            }
             ExprNodeType op = type_utils::stringToExprNodeType(parts[0]);
             DataType type = type_utils::stringToDataType(parts[1]);
 
@@ -103,11 +112,7 @@ namespace parse_utils
         else {
             // Добавить соответствующую ошибку и вернуть std::nullopt
             Error err;
-            if (parts.size() == 4 && parts[0] != "convert") {
-                err.setType(ERR_MISSING_CONVERT_KEYWORD);   // Для преобразования типов отсутствует ключевое слово convert
-            } else {
-                err.setType(ERR_INVALID_LINE_FORMAT);       // Строка не соответствует допустимому формату
-            }
+            err.setType(ERR_INVALID_LINE_FORMAT);       // Строка не соответствует допустимому формату
             err.setObjectName(weightStr);
             errors.insert(err);
 

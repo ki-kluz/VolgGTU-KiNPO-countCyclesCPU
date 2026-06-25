@@ -1,0 +1,2 @@
+Error: invalid or unsupported token detected in expression.
+Error: invalid expression structure (excess operands detected).
