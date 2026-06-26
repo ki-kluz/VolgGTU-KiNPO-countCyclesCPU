@@ -1,16 +1,27 @@
 #ifndef DATATYPE_H
 #define DATATYPE_H
 
+/**
+ * @file DataType.h
+ * @brief Содержит перечисление поддерживаемых типов данных.
+ */
+
+/**
+ * @brief Перечисление типов данных, используемых в выражениях.
+ *
+ * Описывает все допустимые типы операндов и переменных,
+ * а также используется для определения типов при их приведении.
+ */
 enum DataType {
-    TYPE_UNKNOWN,       // (по умолчанию)
-    TYPE_BOOL,
-    TYPE_CHAR,
-    TYPE_SHORT,
-    TYPE_INT,
-    TYPE_LONG,
-    TYPE_LLONG,
-    TYPE_FLOAT,
-    TYPE_DOUBLE
+    TYPE_UNKNOWN,       ///< Неизвестный тип (по умолчанию или при ошибке)
+    TYPE_BOOL,          ///< Логический тип (true/false)
+    TYPE_CHAR,          ///< Символьный тип (например, 'a')
+    TYPE_SHORT,         ///< Короткое целое число
+    TYPE_INT,           ///< Целое число (стандартное)
+    TYPE_LONG,          ///< Длинное целое число
+    TYPE_LLONG,         ///< Очень длинное целое число (long long)
+    TYPE_FLOAT,         ///< Вещественное число одинарной точности
+    TYPE_DOUBLE         ///< Вещественное число двойной точности
 };
 
 #endif // DATATYPE_H
